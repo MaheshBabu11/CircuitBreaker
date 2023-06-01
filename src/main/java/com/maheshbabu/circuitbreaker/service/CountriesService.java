@@ -15,8 +15,13 @@ public class CountriesService {
         this.restTemplate = restTemplate;
     }
 
-    public List<Object> getCountries() {
-        Object[] countries = restTemplate.getForObject("https://restcountries.com/v3.1/all", Object[].class);
+    public List<Object> getCountries() throws Exception {
+        Object[] countries = null;
+        try {
+            countries = restTemplate.getForObject("https://restcountries.com/v3.1/all", Object[].class);
+        } catch (Exception e) {
+            throw new Exception("Failed to fetch countries from the API");
+        }
         return Arrays.stream(countries).toList().subList(1, 10);
     }
 }
